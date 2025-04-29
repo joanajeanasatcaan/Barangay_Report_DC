@@ -7,20 +7,18 @@ defineProps({
   incidents: Array
 })
 
-const updateStatus = (incidentsId, status) => {
-  router.put(`/admin/reports/${incidentsId}/resolve`, { status })
+const updateStatus = (incidentId, status) => {
+  router.put(`/admin/reports/${incidentId}/resolve`, { status })
 }
-
 </script>
-
 
 <template>
   <AuthenticatedLayout>
-    <div>
+    <div class="p-4">
       <h1 class="mb-4 text-2xl font-bold">Admin Reports</h1>
       <table class="w-full border">
-        <thead>
-          <tr class="bg-gray-200">
+        <thead class="bg-gray-100">
+          <tr>
             <th class="p-2 border">Title</th>
             <th class="p-2 border">Description</th>
             <th class="p-2 border">Reported By</th>
@@ -35,16 +33,7 @@ const updateStatus = (incidentsId, status) => {
             <td class="p-2 border">{{ incident.description }}</td>
             <td class="p-2 border">{{ incident.user.name }}</td>
             <td class="p-2 border">{{ new Date(incident.created_at).toLocaleString() }}</td>
-            <td class="p-2 border">
-              <span
-                :class="{
-                  'text-yellow-500': incident.status === 'On Progress',
-                  'text-green-600': incident.status === 'Solved',
-                  'text-gray-500': !incident.status
-                }">
-                {{ incident.status || 'Pending' }}
-              </span>
-            </td>
+            <td class="p-2 border">{{ incident.status }}</td>
             <td class="p-2 space-x-2 border">
               <button
                 class="px-2 py-1 text-white bg-yellow-400 rounded hover:bg-yellow-500"

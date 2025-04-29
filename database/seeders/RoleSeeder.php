@@ -24,7 +24,6 @@ class RoleSeeder extends Seeder
             'password' => bcrypt('password'),
         ]);
 
-        // Assign role
         $admin->assignRole($adminRole);
     }
 }

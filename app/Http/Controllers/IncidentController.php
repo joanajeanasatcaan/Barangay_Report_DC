@@ -37,9 +37,18 @@ public function adminIndex()
     return Inertia::render('Admin/Reports', compact('incidents'));
 }
 
-public function markResolved(Incident $incident)
+public function markResolved(Request $request, Incident $incident)
 {
-    $incident->update(['status' => 'resolved']);
-    return back();
+    $request->validate([
+        'status' => 'required|in:On Progress,Solved',
+    ]);
+
+    $incident->update([
+        'status' => $request->status,
+    ]);
+
+    return back()->with('message', 'Incident status updated.');
 }
+
+
 }
