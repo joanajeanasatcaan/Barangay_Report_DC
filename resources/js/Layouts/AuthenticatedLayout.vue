@@ -13,21 +13,12 @@ const showingNavigationDropdown = ref(false);
 <template>
     <div>
         <div class="min-h-screen bg-gray-100">
-            <nav
-                class="border-b border-gray-100 bg-white"
-            >
+            <nav class="sticky top-0 z-10 bg-white border-b border-gray-200 shadow-sm">
                 <!-- Primary Navigation Menu -->
-                <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                    <div class="flex h-16 justify-between">
+                <div class="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
+                    <div class="flex justify-between h-16">
                         <div class="flex">
-                            <!-- Logo -->
-                            <div class="flex shrink-0 items-center">
-                                <Link :href="route('dashboard')">
-                                    <ApplicationLogo
-                                        class="block h-9 w-auto fill-current text-gray-800"
-                                    />
-                                </Link>
-                            </div>
+
 
                             <!-- Navigation Links -->
                             <div
@@ -36,6 +27,8 @@ const showingNavigationDropdown = ref(false);
                                 <NavLink
                                     :href="route('dashboard')"
                                     :active="route().current('dashboard')"
+                                    class="inline-flex items-center px-1 pt-1 text-sm font-medium leading-5 transition duration-150 ease-in-out border-b-2 border-transparent hover:border-blue-400"
+                                    active-class="font-semibold text-blue-600 border-blue-500"
                                 >
                                     Dashboard
                                 </NavLink>
@@ -50,7 +43,7 @@ const showingNavigationDropdown = ref(false);
                                         <span class="inline-flex rounded-md">
                                             <button
                                                 type="button"
-                                                class="inline-flex items-center rounded-md border border-transparent bg-white px-3 py-2 text-sm font-medium leading-4 text-gray-500 transition duration-150 ease-in-out hover:text-gray-700 focus:outline-none"
+                                                class="inline-flex items-center px-4 py-2 text-sm font-medium leading-4 text-gray-700 transition duration-150 ease-in-out bg-white border border-gray-200 rounded-md hover:bg-gray-50 hover:text-blue-600 focus:outline-none focus:ring focus:ring-blue-200 focus:ring-opacity-50"
                                             >
                                                 {{ $page.props.auth.user.name }}
 
@@ -71,34 +64,45 @@ const showingNavigationDropdown = ref(false);
                                     </template>
 
                                     <template #content>
-                                        <DropdownLink
-                                            :href="route('profile.edit')"
-                                        >
-                                            Profile
-                                        </DropdownLink>
-                                        <DropdownLink
-                                            :href="route('logout')"
-                                            method="post"
-                                            as="button"
-                                        >
-                                            Log Out
-                                        </DropdownLink>
+                                        <div class="py-1">
+                                            <DropdownLink
+                                                :href="route('profile.edit')"
+                                                class="flex items-center px-4 py-2 hover:bg-gray-50 hover:text-blue-600"
+                                            >
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                                </svg>
+                                                Profile
+                                            </DropdownLink>
+                                            <DropdownLink
+                                                :href="route('logout')"
+                                                method="post"
+                                                as="button"
+                                                class="flex items-center w-full px-4 py-2 text-left hover:bg-gray-50 hover:text-red-600"
+                                            >
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                                                </svg>
+                                                Log Out
+                                            </DropdownLink>
+                                        </div>
                                     </template>
                                 </Dropdown>
                             </div>
                         </div>
 
                         <!-- Hamburger -->
-                        <div class="-me-2 flex items-center sm:hidden">
+                        <div class="flex items-center -me-2 sm:hidden">
                             <button
                                 @click="
                                     showingNavigationDropdown =
                                         !showingNavigationDropdown
                                 "
-                                class="inline-flex items-center justify-center rounded-md p-2 text-gray-400 transition duration-150 ease-in-out hover:bg-gray-100 hover:text-gray-500 focus:bg-gray-100 focus:text-gray-500 focus:outline-none"
+                                class="inline-flex items-center justify-center p-2 text-gray-500 transition duration-150 ease-in-out rounded-md hover:bg-gray-100 hover:text-blue-600 focus:bg-gray-100 focus:text-blue-600 focus:outline-none focus:ring focus:ring-blue-200 focus:ring-opacity-50"
+                                aria-label="Toggle navigation menu"
                             >
                                 <svg
-                                    class="h-6 w-6"
+                                    class="w-6 h-6"
                                     stroke="currentColor"
                                     fill="none"
                                     viewBox="0 0 24 24"
@@ -139,10 +143,12 @@ const showingNavigationDropdown = ref(false);
                     }"
                     class="sm:hidden"
                 >
-                    <div class="space-y-1 pb-3 pt-2">
+                    <div class="pt-2 pb-3 space-y-1">
                         <ResponsiveNavLink
                             :href="route('dashboard')"
                             :active="route().current('dashboard')"
+                            class="block py-2 pl-3 pr-4 text-base font-medium transition duration-150 ease-in-out border-l-4 border-transparent hover:bg-gray-50 hover:border-blue-300 hover:text-blue-600"
+                            active-class="font-semibold text-blue-600 border-blue-500 bg-blue-50"
                         >
                             Dashboard
                         </ResponsiveNavLink>
@@ -150,7 +156,7 @@ const showingNavigationDropdown = ref(false);
 
                     <!-- Responsive Settings Options -->
                     <div
-                        class="border-t border-gray-200 pb-1 pt-4"
+                        class="pt-4 pb-1 border-t border-gray-200 bg-gray-50"
                     >
                         <div class="px-4">
                             <div
@@ -164,14 +170,22 @@ const showingNavigationDropdown = ref(false);
                         </div>
 
                         <div class="mt-3 space-y-1">
-                            <ResponsiveNavLink :href="route('profile.edit')">
+                            <ResponsiveNavLink :href="route('profile.edit')"
+                                class="flex items-center py-2 pl-3 pr-4 text-base font-medium transition duration-150 ease-in-out border-l-4 border-transparent hover:bg-gray-100 hover:border-blue-300 hover:text-blue-600">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                </svg>
                                 Profile
                             </ResponsiveNavLink>
                             <ResponsiveNavLink
                                 :href="route('logout')"
                                 method="post"
                                 as="button"
+                                class="flex items-center w-full py-2 pl-3 pr-4 text-base font-medium text-left transition duration-150 ease-in-out border-l-4 border-transparent hover:bg-gray-100 hover:border-red-300 hover:text-red-600"
                             >
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                                </svg>
                                 Log Out
                             </ResponsiveNavLink>
                         </div>
@@ -184,7 +198,7 @@ const showingNavigationDropdown = ref(false);
                 class="bg-white shadow"
                 v-if="$slots.header"
             >
-                <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+                <div class="px-4 py-6 mx-auto max-w-7xl sm:px-6 lg:px-8">
                     <slot name="header" />
                 </div>
             </header>

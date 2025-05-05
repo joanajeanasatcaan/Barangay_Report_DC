@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Incident;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Redirect;
 
 class IncidentController extends Controller
 {
@@ -21,14 +22,35 @@ public function create()
 
 public function store(Request $request)
 {
+
+
+
     $request->validate([
         'title' => 'required|string|max:255',
         'description' => 'required|string',
+        // 'status' => 'in:Pending, On Progress,Solved',
     ]);
 
-    auth()->user()->incidents()->create($request->only('title', 'description'));
+    auth()->user()->incidents()->create([
+        'title' => $request->title,
+        'description' => $request->description,
+        // 'status' => $request->status,
+    ]);
+
 
     return redirect()->route('incidents.index');
+}
+
+public function adminDashboard()
+{
+    // Paginate incidents with user data
+    $incidents = Incident::with('user')  // Eager load the user relationship
+        ->latest()  // Order by the latest incidents
+        ->paginate(10);  // Paginate the results
+
+    return Inertia::render('Admin/Index', [
+        'incidents' => $incidents  // Pass the paginated incidents to the Inertia view
+    ]);
 }
 
 public function adminIndex()
@@ -49,6 +71,24 @@ public function markResolved(Request $request, Incident $incident)
 
     return back()->with('message', 'Incident status updated.');
 }
+
+public function show($id)
+{
+    $incident = Incident::findOrFail($id);
+
+    return Inertia::render('Incidents/Show', [
+        'incident' => $incident
+    ]);
+}
+
+public function destroy($id)
+{
+    $incident = \App\Models\Incident::findOrFail($id);
+    $incident->delete();
+
+    return Redirect::route('incidents.index')->with('success', 'Incident deleted successfully.');
+}
+
 
 
 }
